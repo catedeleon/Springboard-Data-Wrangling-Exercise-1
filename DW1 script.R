@@ -11,11 +11,11 @@ refine_original$company[agrep("akzo", refine_original$company, ignore.case = TRU
 refine_original$company[agrep("van houten", refine_original$company, ignore.case = TRUE)] <- "van houten"
 refine_original$company[agrep("unilever", refine_original$company, ignore.case = TRUE)] <- "unilever" 
   
-# Split into product_code and product_number
+# Split Product.code...number variable into product_code and product_number
 
 refine_original <- refine_original %>% separate(Product.code...number, c("product_code", "product_number")) 
 
-# Product_categories
+# Create variable product_category based on product_code
 
 refine_original <- refine_original %>% 
 mutate(product_category = case_when(product_code == "p" ~ "smartphone",
@@ -23,12 +23,12 @@ mutate(product_category = case_when(product_code == "p" ~ "smartphone",
                                       product_code == "x" ~ "laptop",
                                       product_code == "q" ~ "tablet"))
 
-# Combine into full address
+# Combine location variables into full_address
 
 refine_original <- refine_original %>%
 mutate(full_address = paste(refine_original$address, refine_original$city, refine_original$country, sep=", "))
 
-# Dummy columns
+# Create binary dummy columns for each company name and product category
 
 refine_original <- refine_original %>% 
 
